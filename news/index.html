@@ -82,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nflfastR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">2.0.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.0.0.9002</span>
       </span>
     </div>
 
@@ -95,7 +95,10 @@
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="../articles/nflfastR.html">Get started</a>
+</li>
+<li>
+  <a href="../reference/index.html">Functions</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -108,19 +111,37 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/beginners_guide.html">A beginner's guide to nflfastR</a>
+      <a href="../articles/beginners_guide.html">A beginner’s guide to nflfastR</a>
     </li>
     <li>
-      <a href="../articles/examples.html">Examples</a>
-    </li>
-    <li>
-      <a href="../articles/nflfastR-models.html">nflfastR EP, WP, and CP models</a>
+      <a href="https://www.opensourcefootball.com/posts/2020-09-28-nflfastr-ep-wp-and-cp-models/">nflfastR models</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="https://www.opensourcefootball.com/">Open Source Football</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="https://github.com/guga31bb/nflfastR-data">
+    <span class="fas fa fas fa-database fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://rbsdm.com/stats/">
+    <span class="fas fa fas fa-chart-line fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="http://nflgamedata.com/">
+    <span class="fas fa fas fa-football-ball fa-lg"></span>
+     
+  </a>
+</li>
+<li>
   <a href="http://twitter.com/nflfastR">
     <span class="fab fa fab fa-twitter fa-lg"></span>
      
@@ -149,33 +170,210 @@
       <small>Source: <a href='https://github.com/mrcaseb/nflfastR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="nflfastr-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#nflfastr-development-version" class="anchor"></a>nflfastR (development version)<small> Unreleased </small>
+</h1>
+<ul>
+<li>More fixes for <code>fixed_drive</code> which was not incrementing properly on drives that began following a timeout</li>
+<li>Fixed more bugs in EPA and win probability on PATs and kickoffs with penalties</li>
+<li>Fixed a bug where scoring probabilities weren’t adding to 1 on field goal attempts near the end of a half</li>
+<li>Fixed a bug where <code><a href="../reference/update_db.html">update_db()</a></code> disconnected the connection to a database provided by the argument <code>db_connection</code> (<a href='https://github.com/mrcaseb/nflfastR/issues/102'>#102</a>)</li>
+</ul>
+</div>
+    <div id="nflfastr-300" class="section level1">
+<h1 class="page-header" data-toc-text="3.0.0">
+<a href="#nflfastr-300" class="anchor"></a>nflfastR 3.0.0<small> 2020-09-24 </small>
+</h1>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<ul>
+<li>
+<code><a href="../reference/fast_scraper_roster.html">fast_scraper_roster()</a></code> is finally back! It loads NFL roster of a given season.</li>
+<li>Added the function <code><a href="../reference/decode_player_ids.html">decode_player_ids()</a></code> to decode all player IDs to the commonly known GSIS ID format (00-00xxxxx)</li>
+</ul>
+</div>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
+<ul>
+<li>Add option <code>source = "old"</code> to <code><a href="../reference/fast_scraper.html">fast_scraper()</a></code> to enable scraping of old source. This is mostly useless as it doesn’t work for 2020 and provides less info</li>
+<li>Added new option <code>db_connection</code> to <code><a href="../reference/update_db.html">update_db()</a></code> to allow advanced users to use other DBI drivers, such as <code>RMariaDB::MariaDB()</code>, <code>RPostgres::Postgres()</code> or <code>odbc::odbc()</code> (please see <a href="https://dbplyr.tidyverse.org/articles/dbplyr.html">dbplyr</a> for more information)</li>
+</ul>
+</div>
+<div id="minor-improvements-and-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-improvements-and-fixes" class="anchor"></a>Minor improvements and fixes</h2>
+<ul>
+<li>
+<code><a href="../reference/clean_pbp.html">clean_pbp()</a></code> now fixes some bugs in jersey numbers</li>
+<li>
+<code><a href="../reference/clean_pbp.html">clean_pbp()</a></code>, <code><a href="../reference/add_qb_epa.html">add_qb_epa()</a></code> and <code><a href="../reference/add_xyac.html">add_xyac()</a></code> can now handle empty data frames</li>
+<li>Fix empty line causing <code><a href="../reference/fast_scraper.html">fast_scraper()</a></code> to fail (affects multiple games of the 2020 season)</li>
+<li>Fix bug in <code>fixed_drive</code> that counted PAT after defensive TD as its own drive</li>
+<li>Fixed a bug which caused too high number of tackles in special cases</li>
+<li>Fixed a bug where CPOE was NA when targeting players with apostrophe in last name</li>
+</ul>
+</div>
+</div>
+    <div id="nflfastr-221" class="section level1">
+<h1 class="page-header" data-toc-text="2.2.1">
+<a href="#nflfastr-221" class="anchor"></a>nflfastR 2.2.1<small> 2020-09-01 </small>
+</h1>
+<ul>
+<li>Fix <code><a href="../reference/add_xyac.html">add_xyac()</a></code> breaking with some old packages</li>
+<li>Fix <code><a href="../reference/add_xyac.html">add_xyac()</a></code> and <code><a href="../reference/add_qb_epa.html">add_qb_epa()</a></code> calculations being wrong for some failed 4th downs</li>
+<li>Updated Readme with ep and cp model plots</li>
+<li>Updated <code>vignette("examples")</code> with the new <code><a href="../reference/add_xyac.html">add_xyac()</a></code> function</li>
+<li>Added xYAC model to <code>vignette("nflfastR-models")</code>
+</li>
+<li>Added variables <code>fixed_drive</code> and <code>fixed_drive_result</code> to the output of <code><a href="../reference/fast_scraper.html">fast_scraper()</a></code> because the NFL-provided drive info is extremely buggy</li>
+<li>Added variable <code>series_result</code>
+</li>
+<li>
+<code><a href="../reference/clean_pbp.html">clean_pbp()</a></code> now adds 4 new variables <code>passer_jersey_number</code>, <code>rusher_jersey_number</code>, <code>receiver_jersey_number</code> and <code>jersey_number</code>. These can be used to join rosters.</li>
+<li>Fixed incorrect <code>timeout_team</code>, <code>return_team</code>, <code>fumble_recovery_1_team</code> for JAX games from 2011-2015</li>
+<li>Re-trained EPA model with <code>fixed_drive</code> and corrections to <code>timeout_team</code>
+</li>
+</ul>
+</div>
+    <div id="nflfastr-220" class="section level1">
+<h1 class="page-header" data-toc-text="2.2.0">
+<a href="#nflfastr-220" class="anchor"></a>nflfastR 2.2.0<small> Unreleased </small>
+</h1>
+<ul>
+<li>New function <code><a href="../reference/add_xyac.html">add_xyac()</a></code> which adds the following columns associated with expected yards after the catch (xYAC): <code>xyac_epa</code>, <code>xyac_success</code>, <code>xyac_fd</code>, <code>xyac_mean_yardage</code>, <code>xyac_median_yardage</code>
+</li>
+</ul>
+</div>
+    <div id="nflfastr-213" class="section level1">
+<h1 class="page-header" data-toc-text="2.1.3">
+<a href="#nflfastr-213" class="anchor"></a>nflfastR 2.1.3<small> Unreleased </small>
+</h1>
+<ul>
+<li>Fixed a bug in <code>series_success</code> caused by bad <code>drive</code> information provided by NFL</li>
+</ul>
+</div>
+    <div id="nflfastr-212" class="section level1">
+<h1 class="page-header" data-toc-text="2.1.2">
+<a href="#nflfastr-212" class="anchor"></a>nflfastR 2.1.2<small> Unreleased </small>
+</h1>
+<ul>
+<li>Added the following columns that are available 2011 and later: <code>special_teams_play</code>, <code>st_play_type</code>, <code>time_of_day</code>, and <code>order_sequence</code>
+</li>
+<li>Added <code>old_game_id</code> column (useful for merging to external data that still uses this ID: format is YYYYMMDDxx)</li>
+<li>The <code><a href="../reference/clean_pbp.html">clean_pbp()</a></code> function now adds an <code>aborted_play</code> column</li>
+<li>Fixed a bug where pass plays with a penalty at end of play were classified as <code>play_type</code> = <code>no_play</code> rather than <code>pass</code>
+</li>
+<li>Fixed bug where EPA on defensive 2 point return was -0.95 instead of -2.95</li>
+<li>Fixed some remaining failed challenge plays that incorrectly had 0 for EPA</li>
+<li>Updated the included dataframe <code>teams_colors_logos</code> for the interim name of the ‘Washington Football Team’ and the corresponding logo urls.</li>
+<li>Some internal code improvements causing the required <code>tidyselect</code> version to be &gt;= 1.1.0</li>
+</ul>
+</div>
+    <div id="nflfastr-211" class="section level1">
+<h1 class="page-header" data-toc-text="2.1.1">
+<a href="#nflfastr-211" class="anchor"></a>nflfastR 2.1.1<small> Unreleased </small>
+</h1>
+<div id="functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#functions" class="anchor"></a>Functions</h3>
+<ul>
+<li>
+<code><a href="../reference/clean_pbp.html">clean_pbp()</a></code> now standardizes player IDs across the old (1999-2010) and new (2011+) data sources. Player IDs once again uniquely identify players, and each unique player has one unique ID (as they did before the NFL data source change):
+<ul>
+<li>For players whose careers finished before 2011, their IDs remain the same</li>
+<li>For players who played in both eras or only in the new era, their ID is the new ID</li>
+<li>For example, Akili Smith (ID: 00-0015082) and Alex Smith (ID: 32013030-2d30-3032-3334-3336b638d37d) are both abbreviated as “A.Smith” but can be distinguished by their IDs, with Akili showing what the old format ID looks like, and Smith the new one</li>
+<li>Standardization is realized by using an <a href="https://github.com/guga31bb/nflfastR-data/blob/master/roster-data/legacy_id_map.csv">ID map</a> available in the data repo created with <a href="https://github.com/guga31bb/nflfastR-data/blob/master/roster-data/legacy_id_map.R">this script</a>
+</li>
+</ul>
+</li>
+<li>
+<code><a href="../reference/clean_pbp.html">clean_pbp()</a></code> now removes all variables it is about to create to make sure nothing unexpected can happen</li>
+</ul>
+</div>
+<div id="miscellaneous" class="section level3">
+<h3 class="hasAnchor">
+<a href="#miscellaneous" class="anchor"></a>Miscellaneous</h3>
+<ul>
+<li><p>Added minimum version requirements to some package dependencies because installation broke for some users with outdated packages</p></li>
+<li><p>Made a minor bug fix to catch more out-of-order plays and fixed a bug where some plays were being incorrectly dropped in older seasons</p></li>
+<li><p>Standardized team names (e.g. <code>SD</code> –&gt; <code>LAC</code>) in some columns we had missed</p></li>
+</ul>
+</div>
+</div>
+    <div id="nflfastr-210" class="section level1">
+<h1 class="page-header" data-toc-text="2.1.0">
+<a href="#nflfastr-210" class="anchor"></a>nflfastR 2.1.0<small> Unreleased </small>
+</h1>
+<div id="models" class="section level3">
+<h3 class="hasAnchor">
+<a href="#models" class="anchor"></a>Models</h3>
+<ul>
+<li>Removed <code>week</code> from Expected Points models along with an update of <code>vignette("nflfastR-models")</code> and <code>vignette("examples")</code>
+</li>
+</ul>
+</div>
+<div id="functions-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#functions-1" class="anchor"></a>Functions</h3>
+<ul>
+<li>Added function <code><a href="../reference/update_db.html">update_db()</a></code> which adds all completed games to a SQLite database</li>
+<li>Added function <code><a href="../reference/calculate_win_probability.html">calculate_win_probability()</a></code>
+</li>
+<li>Added new examples to <code>vignette("examples")</code> demonstrating the usage of the above mentioned functions</li>
+</ul>
+</div>
+<div id="bugs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bugs" class="anchor"></a>Bugs</h3>
+<ul>
+<li>Fixed a problem with inconsistent data types of the variable <code>drive_real_start_time</code> pre and post 2011</li>
+<li>Fixed a problem where some <code>game_id</code>s were overwritten during the play by play parsing</li>
+<li>Fix some more WP bugs on kickoffs with penalties and rare play description</li>
+</ul>
+</div>
+<div id="miscellaneous-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#miscellaneous-1" class="anchor"></a>Miscellaneous</h3>
+<ul>
+<li>
+<code><a href="../reference/fast_scraper.html">fast_scraper()</a></code> now loads the raw game data from a separate raw data repo</li>
+<li>Completely overhauled the entire code base to directly implement <a href="https://dplyr.tidyverse.org/articles/programming.html">tidy evaluation</a> using <code>.data</code> from the <a href="https://rlang.r-lib.org/">rlang</a> package (this is a major code change that takes some getting used to but we need it in preparation of a future release)</li>
+</ul>
+</div>
+</div>
     <div id="nflfastr-206" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.6">
-<a href="#nflfastr-206" class="anchor"></a>nflfastR 2.0.6</h1>
+<a href="#nflfastr-206" class="anchor"></a>nflfastR 2.0.6<small> Unreleased </small>
+</h1>
 <ul>
 <li>Fixed a problem where defensive two point conversions were not counted</li>
 <li>Kneels on kickoffs are no longer counted as qb kneels</li>
 <li>Variable <code>yards_gained</code> more precisely defined</li>
 <li>Bugfixes for more games with out of order of plays</li>
 <li>Fix bug related to EPA on plays with a failed pass interference challenge</li>
-<li>Added new example to <code>vignette("examples")</code> to demonstrate Expected Points calculator <code><a href="https://mrcaseb.github.io/nflfastR//reference/calculate_expected_points.html">calculate_expected_points()</a></code>
+<li>Added new example to <code>vignette("examples")</code> to demonstrate Expected Points calculator <code><a href="../reference/calculate_expected_points.html">calculate_expected_points()</a></code>
 </li>
 <li>Fix for WP on 2-pt conversion negated by penalty</li>
-<li>Add more variables (containing team names) to team standardization in <code><a href="https://mrcaseb.github.io/nflfastR//reference/clean_pbp.html">clean_pbp()</a></code>
+<li>Add more variables (containing team names) to team standardization in <code><a href="../reference/clean_pbp.html">clean_pbp()</a></code>
 </li>
 <li>Fix WP for onside kicks</li>
 </ul>
 </div>
     <div id="nflfastr-205" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.5">
-<a href="#nflfastr-205" class="anchor"></a>nflfastR 2.0.5</h1>
+<a href="#nflfastr-205" class="anchor"></a>nflfastR 2.0.5<small> Unreleased </small>
+</h1>
 <ul>
 <li>Fix yet another bug caused by NFL providing plays out of order</li>
 <li>Fix bugs related to penalties on PATs and kickoffs</li>
 <li>Fix bugs related to NFL providing wrong scoring team on defensive touchdowns in older games involving the Jaguars</li>
 <li>Fix some minor issues related to wrong <code>first_down_rush</code> and <code>return_touchdown</code>
 </li>
-<li>Improved error handling of <code><a href="https://mrcaseb.github.io/nflfastR//reference/fast_scraper.html">fast_scraper()</a></code> for not yet played games</li>
+<li>Improved error handling of <code><a href="../reference/fast_scraper.html">fast_scraper()</a></code> for not yet played games</li>
 <li>Improved variable documentation and prepared for new website</li>
 <li>Improved performance for dplyr v1.0.0</li>
 <li>Rebuilt EP and WP models due to bugfixes in the underlying data in the versions 2.0.3, 2.0.4 and 2.0.5</li>
@@ -183,7 +381,8 @@
 </div>
     <div id="nflfastr-204" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.4">
-<a href="#nflfastr-204" class="anchor"></a>nflfastR 2.0.4</h1>
+<a href="#nflfastr-204" class="anchor"></a>nflfastR 2.0.4<small> Unreleased </small>
+</h1>
 <ul>
 <li>Fix another bug with out of order plays</li>
 <li>Fix bug affecting cumulative totals for WPA, air_WPA and yac_WPA</li>
@@ -192,7 +391,8 @@
 </div>
     <div id="nflfastr-203" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.3">
-<a href="#nflfastr-203" class="anchor"></a>nflfastR 2.0.3</h1>
+<a href="#nflfastr-203" class="anchor"></a>nflfastR 2.0.3<small> Unreleased </small>
+</h1>
 <ul>
 <li>Fix for NFL providing plays out of order</li>
 <li>Fix for series not incrementing following defensive TD</li>
@@ -200,7 +400,8 @@
 </div>
     <div id="nflfastr-202" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.2">
-<a href="#nflfastr-202" class="anchor"></a>nflfastR 2.0.2</h1>
+<a href="#nflfastr-202" class="anchor"></a>nflfastR 2.0.2<small> Unreleased </small>
+</h1>
 <ul>
 <li>Fixed a bug in the series and series success calculations caused by timeouts following a possession change</li>
 <li>Fixed win probability on PATs</li>
@@ -208,40 +409,42 @@
 </div>
     <div id="nflfastr-201" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.1">
-<a href="#nflfastr-201" class="anchor"></a>nflfastR 2.0.1</h1>
+<a href="#nflfastr-201" class="anchor"></a>nflfastR 2.0.1<small> Unreleased </small>
+</h1>
 <ul>
 <li>Added minimum version requirement on <code>xgboost</code> (&gt;= 1.1) as the recent <code>xgboost</code> update caused a breaking change leading to failure in adding model results to data</li>
 </ul>
 </div>
     <div id="nflfastr-200" class="section level1">
 <h1 class="page-header" data-toc-text="2.0.0">
-<a href="#nflfastr-200" class="anchor"></a>nflfastR 2.0.0</h1>
-<div id="models" class="section level3">
+<a href="#nflfastr-200" class="anchor"></a>nflfastR 2.0.0<small> Unreleased </small>
+</h1>
+<div id="models-1" class="section level3">
 <h3 class="hasAnchor">
-<a href="#models" class="anchor"></a>Models</h3>
+<a href="#models-1" class="anchor"></a>Models</h3>
 <ul>
 <li><p>Added new models for Expected Points, Win Probability and Completion Probability and removed <code>nflscrapR</code> dependency. This is a <strong>major</strong> change as we are stepping away from the well established <code>nflscrapR</code> models. But we believe it is a good step forward. See <code>data-raw/MODEL-README.md</code> for detailed model information.</p></li>
 <li><p>Added internal functions for <code>EPA</code> and <code>WPA</code> to <code>helper_add_ep_wp.R</code>.</p></li>
-<li><p>Added new function <code><a href="https://mrcaseb.github.io/nflfastR//reference/calculate_expected_points.html">calculate_expected_points()</a></code> usable for the enduser.</p></li>
+<li><p>Added new function <code><a href="../reference/calculate_expected_points.html">calculate_expected_points()</a></code> usable for the enduser.</p></li>
 </ul>
 </div>
-<div id="functions" class="section level3">
+<div id="functions-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#functions" class="anchor"></a>Functions</h3>
+<a href="#functions-2" class="anchor"></a>Functions</h3>
 <ul>
-<li><p>Completely overhauled <code><a href="https://mrcaseb.github.io/nflfastR//reference/fast_scraper.html">fast_scraper()</a></code> to make it work with the NFL’s new server backend. The option <code>source</code> is still available but will be deprecated since there is only one source now. There are some changes in the output as well (please see below).</p></li>
-<li><p><code><a href="https://mrcaseb.github.io/nflfastR//reference/fast_scraper.html">fast_scraper()</a></code> now adds game data to the play by play data set courtesy of Lee Sharpe. Game data include: away_score, home_score, location, result, total, spread_line, total_line, div_game, roof, surface, temp, wind, home_coach, away_coach, stadium, stadium_id, gameday</p></li>
+<li><p>Completely overhauled <code><a href="../reference/fast_scraper.html">fast_scraper()</a></code> to make it work with the NFL’s new server backend. The option <code>source</code> is still available but will be deprecated since there is only one source now. There are some changes in the output as well (please see below).</p></li>
+<li><p><code><a href="../reference/fast_scraper.html">fast_scraper()</a></code> now adds game data to the play by play data set courtesy of Lee Sharpe. Game data include: away_score, home_score, location, result, total, spread_line, total_line, div_game, roof, surface, temp, wind, home_coach, away_coach, stadium, stadium_id, gameday</p></li>
 <li><p><code>fastcraper_schedules()</code> now incorporates Lee Sharpe’s <code>games.rds</code>.</p></li>
-<li><p>The functions <code>fast_scraper_clips()</code> and <code>fast_scraper_roster()</code> are deactivated due to the missing data source. They might be reactivated or completely dropped in future versions.</p></li>
-<li><p>The function <code>fix_fumbles()</code> has been renamed to <code><a href="https://mrcaseb.github.io/nflfastR//reference/add_qb_epa.html">add_qb_epa()</a></code> as the new name much better describes what the function is actually doing.</p></li>
+<li><p>The functions <code>fast_scraper_clips()</code> and <code><a href="../reference/fast_scraper_roster.html">fast_scraper_roster()</a></code> are deactivated due to the missing data source. They might be reactivated or completely dropped in future versions.</p></li>
+<li><p>The function <code>fix_fumbles()</code> has been renamed to <code><a href="../reference/add_qb_epa.html">add_qb_epa()</a></code> as the new name much better describes what the function is actually doing.</p></li>
 </ul>
 </div>
-<div id="miscellaneous" class="section level3">
+<div id="miscellaneous-2" class="section level3">
 <h3 class="hasAnchor">
-<a href="#miscellaneous" class="anchor"></a>Miscellaneous</h3>
+<a href="#miscellaneous-2" class="anchor"></a>Miscellaneous</h3>
 <ul>
 <li><p>Added progress information using the <code>progressr</code>package and removed the <code>furrr</code> progress bars.</p></li>
-<li><p><code><a href="https://mrcaseb.github.io/nflfastR//reference/clean_pbp.html">clean_pbp()</a></code> now adds the column <code>ìd</code> which is the id of the player in the column <code>name</code>. Because we have to piece together different data to cover the full span of years, <strong>player IDs are not consistent between the early (1999-2010) and recent (2011 onward) periods</strong>.</p></li>
+<li><p><code><a href="../reference/clean_pbp.html">clean_pbp()</a></code> now adds the column <code>ìd</code> which is the id of the player in the column <code>name</code>. Because we have to piece together different data to cover the full span of years, <strong>player IDs are not consistent between the early (1999-2010) and recent (2011 onward) periods</strong>.</p></li>
 <li><p>Added a <code>NEWS.md</code> file to track changes to the package.</p></li>
 <li><p>Fixed several bugs inhereted from <code>nflscrapR</code>, including one where EPA was missing when a play was followed by two timeouts (for example, a two-minute warning followed by a timeout), and another where <code>play_type</code> was incorrect on plays with declined penalties.</p></li>
 <li><p>Fixed a bug, where <code>receiver_player_name</code> and <code>receiver</code> didn’t name the correct players on plays with lateral passes.</p></li>
@@ -534,7 +737,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
