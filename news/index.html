@@ -98,7 +98,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nflfastR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2.0.9003</span>
       </span>
     </div>
 
@@ -106,7 +106,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -141,31 +141,37 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/guga31bb/nflfastR-data">
-    <span class="fas fa fas fa-database fa-lg"></span>
+    <span class="fas fa-database fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://rbsdm.com/stats/">
-    <span class="fas fa fas fa-chart-line fa-lg"></span>
+    <span class="fas fa-chart-line fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="http://nflgamedata.com/">
-    <span class="fas fa fas fa-football-ball fa-lg"></span>
+    <span class="fas fa-football-ball fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="http://twitter.com/nflfastR">
-    <span class="fab fa fab fa-twitter fa-lg"></span>
+    <span class="fab fa-twitter fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://discord.gg/5Er2FBnnQa">
+    <span class="fab fa-discord fa-lg"></span>
      
   </a>
 </li>
 <li>
   <a href="https://github.com/mrcaseb/nflfastR/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -192,6 +198,18 @@
       <small>Source: <a href='https://github.com/mrcaseb/nflfastR/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="nflfastr-development-version" class="section level1">
+<h1 class="page-header" data-toc-text="development version">
+<a href="#nflfastr-development-version" class="anchor"></a>nflfastR (development version)<small> Unreleased </small>
+</h1>
+<ul>
+<li>Fix bug where <code>fixed_drive</code> and <code>series</code> weren’t updating after muffed punt (<a href='https://github.com/mrcaseb/nflfastR/issues/144'>#144</a>)</li>
+<li>Fixed bug induced by fixing the above (<a href='https://github.com/mrcaseb/nflfastR/issues/149'>#149</a>)</li>
+<li>Fix bug where some special teams plays were incorrectly being labeled as pass plays (<a href='https://github.com/mrcaseb/nflfastR/issues/125'>#125</a>)</li>
+<li>Fix bug where points for safeties were given to the <code>defteam</code> instead of the <code>posteam</code> (<a href='https://github.com/mrcaseb/nflfastR/issues/152'>#152</a>)</li>
+<li>Fix bug where a muffed punt TD was given to the wrong team in a 2011 Jaguars game (<a href='https://github.com/mrcaseb/nflfastR/issues/154'>#154</a>)</li>
+</ul>
+</div>
     <div id="nflfastr-320" class="section level1">
 <h1 class="page-header" data-toc-text="3.2.0">
 <a href="#nflfastr-320" class="anchor"></a>nflfastR 3.2.0<small> 2020-11-20 </small>
