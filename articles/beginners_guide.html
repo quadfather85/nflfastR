@@ -49,7 +49,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nflfastR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.0.9008</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.0.0.9009</span>
       </span>
     </div>
 
@@ -774,7 +774,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>epa <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">epa</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 2 x 2</span>
 <span class="co">#&gt;    home     epa</span>
-<span class="co">#&gt; * &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;dbl&gt;   &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     0  0.0214</span>
 <span class="co">#&gt; 2     1 -0.0166</span></code></pre></div>
 <p>Note that EPA/play is similar for home teams and away teams because <code>home</code> is already built into the <code>nflfastR</code> EPA model, so this result is expected. Actually, away EPA/play is actually somewhat higher, presumably because away teams out-performed their usual in 2019 as homefield advantage continues to decline generally.</p>
@@ -794,7 +794,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>cp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">cp</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 4 x 2</span>
 <span class="co">#&gt;   depth       cp</span>
-<span class="co">#&gt; * &lt;chr&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Deep     0.367</span>
 <span class="co">#&gt; 2 Medium   0.573</span>
 <span class="co">#&gt; 3 Negative 0.847</span>
@@ -857,7 +857,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 2</span>
 <span class="co">#&gt;   season     n</span>
-<span class="co">#&gt; *  &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1   2015 48869</span>
 <span class="co">#&gt; 2   2016 48419</span>
 <span class="co">#&gt; 3   2017 47997</span>
@@ -870,7 +870,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarize</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 10 x 2</span>
 <span class="co">#&gt;    play_type       n</span>
-<span class="co">#&gt;  * &lt;chr&gt;       &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt;       &lt;int&gt;</span>
 <span class="co">#&gt;  1 extra_point  6115</span>
 <span class="co">#&gt;  2 field_goal   5138</span>
 <span class="co">#&gt;  3 kickoff     13525</span>
@@ -1004,7 +1004,7 @@
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">games</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span><span class="op">(</span><span class="st">"http://www.habitatring.com/games.rds"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">games</span><span class="op">)</span>
-<span class="co">#&gt; tibble [5,852 × 40] (S3: tbl_df/tbl/data.frame)</span>
+<span class="co">#&gt; tibble [5,852 × 41] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;  $ game_id         : chr [1:5852] "1999_01_MIN_ATL" "1999_01_KC_CHI" "1999_01_PIT_CLE" "1999_01_OAK_GB" ...</span>
 <span class="co">#&gt;  $ season          : int [1:5852] 1999 1999 1999 1999 1999 1999 1999 1999 1999 1999 ...</span>
 <span class="co">#&gt;  $ game_type       : chr [1:5852] "REG" "REG" "REG" "REG" ...</span>
@@ -1021,6 +1021,7 @@
 <span class="co">#&gt;  $ total           : int [1:5852] 31 37 43 52 45 44 29 58 49 48 ...</span>
 <span class="co">#&gt;  $ overtime        : int [1:5852] 0 0 0 0 0 0 0 0 0 0 ...</span>
 <span class="co">#&gt;  $ old_game_id     : chr [1:5852] "1999091210" "1999091206" "1999091213" "1999091208" ...</span>
+<span class="co">#&gt;  $ espn            : chr [1:5852] "190912001" "190912003" "190912005" "190912009" ...</span>
 <span class="co">#&gt;  $ away_rest       : int [1:5852] 7 7 7 7 7 7 7 7 7 7 ...</span>
 <span class="co">#&gt;  $ home_rest       : int [1:5852] 7 7 7 7 7 7 7 7 7 7 ...</span>
 <span class="co">#&gt;  $ away_moneyline  : int [1:5852] NA NA NA NA NA NA NA NA NA NA ...</span>
@@ -1466,18 +1467,18 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Residuals:</span>
 <span class="co">#&gt;     Min      1Q  Median      3Q     Max </span>
-<span class="co">#&gt; -7.0962 -1.9454  0.1553  2.1461  7.4514 </span>
+<span class="co">#&gt; -7.0963 -1.9454  0.1552  2.1460  7.4514 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Coefficients:</span>
 <span class="co">#&gt;                  Estimate Std. Error t value            Pr(&gt;|t|)    </span>
-<span class="co">#&gt; (Intercept)      8.000000   0.144078   55.53 &lt;0.0000000000000002 ***</span>
-<span class="co">#&gt; prior_point_diff 0.012897   0.001416    9.11 &lt;0.0000000000000002 ***</span>
+<span class="co">#&gt; (Intercept)      8.000000   0.144081  55.524 &lt;0.0000000000000002 ***</span>
+<span class="co">#&gt; prior_point_diff 0.012898   0.001416   9.108 &lt;0.0000000000000002 ***</span>
 <span class="co">#&gt; ---</span>
 <span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Residual standard error: 2.823 on 382 degrees of freedom</span>
-<span class="co">#&gt; Multiple R-squared:  0.1785, Adjusted R-squared:  0.1763 </span>
-<span class="co">#&gt; F-statistic: 82.99 on 1 and 382 DF,  p-value: &lt; 0.00000000000000022</span></code></pre></div>
+<span class="co">#&gt; Multiple R-squared:  0.1784, Adjusted R-squared:  0.1763 </span>
+<span class="co">#&gt; F-statistic: 82.96 on 1 and 382 DF,  p-value: &lt; 0.00000000000000022</span></code></pre></div>
 <p>So R2 is somewhat higher for just point differential. This isn’t surprising as we’ve thrown away special teams plays and haven’t attempted to make any adjustments for things like fumble luck that we know can improve EPA’s predictive power.</p>
 </div>
 <div id="predictions" class="section level3">
