@@ -49,7 +49,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">nflfastR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.0.9001</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">4.2.0.9002</span>
       </span>
     </div>
 
@@ -956,8 +956,8 @@
   <span class="op">)</span> <span class="op">+</span>
   <span class="co">#make ticks look nice</span>
   <span class="co">#if this doesn't work, `install.packages('scales')`</span>
-  <span class="fu">scale_y_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scales/man/breaks_pretty.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scales/man/breaks_pretty.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu">scale_y_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_pretty.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_pretty.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="beginners_guide_files/figure-html/fig2-1.png" width="100%"></p>
 <p>This looks complicated, but is just a way of getting a bunch of different stuff on the same plot: we have lines for averages, dots, names, etc. I added comments above to explain what is going on, but in practice for making figures I usually just copy and paste stuff and/or google what I need.</p>
 </div>
@@ -990,8 +990,8 @@
     plot.title <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">14</span>, hjust <span class="op">=</span> <span class="fl">0.5</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>
   <span class="op">)</span> <span class="op">+</span>
   <span class="co">#make ticks look nice</span>
-  <span class="fu">scale_y_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scales/man/breaks_pretty.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/scales/man/breaks_pretty.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu">scale_y_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_pretty.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">scale_x_continuous</span><span class="op">(</span>breaks <span class="op">=</span> <span class="fu">scales</span><span class="fu">::</span><span class="fu"><a href="https://scales.r-lib.org/reference/breaks_pretty.html">pretty_breaks</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="beginners_guide_files/figure-html/fig3-1.png" width="100%"></p>
 <p>The only changes we’ve made are to use <code>geom_image</code> instead of <code>geom_point</code>, and to put <code>aspect.ratio = 9 / 16</code> in the <code>theme()</code> part. This makes the plot output dimensions consistent with the provided images and leads to the images not looking squished (how to figure out the right size for the images? Trial and error).</p>
 <p>This figure would look better with transparent logos or fewer players shown, but the point of this is explaining how to do stuff, so let’s call this good enough.</p>
@@ -1006,7 +1006,7 @@
 <a href="#get-team-wins-each-season" class="anchor"></a>Get team wins each season</h3>
 <p>We’re going to cheat a little and take advantage of Lee Sharpe’s famous <code>games</code> file. Most of this stuff has been added into <code>nflfastR</code>, but it’s easier working with this file where each game is one row. If you’re curious, the triple colon is a way to access what is referred to as non-exported functions in a package. Think of this as like a secret menu (why is this secret? Sometimes package developers want to limit the number of exported functions as to be not overwhelming).</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">games</span> <span class="op">&lt;-</span> <span class="fu">nflfastR</span><span class="fu">:::</span><span class="fu">load_lees_games</span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">games</span> <span class="op">&lt;-</span> <span class="fu">nflreadr</span><span class="fu">::</span><span class="fu"><a href="nflreadr.nflverse.com/reference/load_schedules.html">load_schedules</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">games</span><span class="op">)</span>
 <span class="co">#&gt; tibble [6,124 × 41] (S3: tbl_df/tbl/data.frame)</span>
 <span class="co">#&gt;  $ game_id         : chr [1:6124] "1999_01_MIN_ATL" "1999_01_KC_CHI" "1999_01_PIT_CLE" "1999_01_OAK_GB" ...</span>
