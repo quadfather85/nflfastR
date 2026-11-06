@@ -22,13 +22,13 @@
 #' }
 #'
 #' Please see either the documentation of each function or
-#' [the nflfastR Field Descriptions website](https://www.nflfastr.com/articles/field_descriptions.html)
+#' [the nflfastR Field Descriptions website](https://nflfastr.com/articles/field_descriptions.html)
 #' to learn about the output.
 #'
 #' @inheritParams fast_scraper
 #' @param decode If `TRUE`, the function [decode_player_ids()] will be executed.
 #' @param rules If `FALSE`, printing of the header and footer in the console output will be suppressed.
-#' @return An nflfastR play-by-play data frame like it can be loaded from <https://github.com/nflverse/nflfastR-data>.
+#' @return An nflfastR play-by-play data frame like it can be loaded from <https://github.com/nflverse/nflverse-data>.
 #' @details To load valid game_ids please use the package function [fast_scraper_schedules()].
 #' @seealso For information on parallel processing and progress updates please
 #' see [nflfastR].
@@ -36,55 +36,78 @@
 #' @examples
 #' \donttest{
 #' # Build nflfastR pbp for the 2018 and 2019 Super Bowls
+#' try({# to avoid CRAN test problems
 #' build_nflfastR_pbp(c("2018_21_NE_LA", "2019_21_SF_KC"))
+#' })
 #'
 #' # It is also possible to directly use the
-#' # output of `fast_scraper_schedules` as input
-#' library(dplyr, warn.conflicts = FALSE)
-#' fast_scraper_schedules(2020) %>%
-#'   tail(3) %>%
+#' # output of `load_schedules` as input
+#' try({# to avoid CRAN test problems
+#' nflreadr::load_schedules(2025) |>
+#'   dplyr::slice_tail(n = 3) |>
 #'   build_nflfastR_pbp()
+#' })
 #'
 #' \dontshow{
 #' # Close open connections for R CMD Check
 #' future::plan("sequential")
 #' }
 #' }
-build_nflfastR_pbp <- function(game_ids,
-                               ...,
-                               decode = TRUE,
-                               rules = TRUE) {
-
-  if (!is.vector(game_ids) && is.data.frame(game_ids)) game_ids <- game_ids$game_id
-
-  if (!is.vector(game_ids)) cli::cli_abort("Param {.code game_ids} is not a valid vector!")
-
-  if (isTRUE(decode) && !is_installed("gsisdecoder")) {
-    cli::cli_abort("Package {.val gsisdecoder} required for decoding. Please install it with {.code install.packages(\"gsisdecoder\")}.")
+build_nflfastR_pbp <- function(
+  game_ids,
+  dir = getOption("nflfastR.raw_directory", default = NULL),
+  ...,
+  decode = TRUE,
+  rules = TRUE
+) {
+  if (!is.vector(game_ids) && is.data.frame(game_ids)) {
+    game_ids <- game_ids$game_id
   }
 
-  if (isTRUE(rules)) rule_header("Build nflfastR Play-by-Play Data")
+  if (!is.vector(game_ids)) {
+    cli::cli_abort("Param {.arg game_ids} is not a valid vector!")
+  }
+
+  if (isTRUE(decode) && !is_installed("gsisdecoder")) {
+    cli::cli_abort(
+      "Package {.pkg gsisdecoder} required for decoding. Please install it with {.code install.packages(\"gsisdecoder\")}."
+    )
+  }
+
+  if (isTRUE(rules)) {
+    rule_header("Build nflfastR Play-by-Play Data")
+  }
+
+  # nflfastR v6 stopped supporting the 1999 and 2000 seasons because of
+  # inconsistent data sources. Data is still available through load_pbp
+  # but we will not fix any issues.
+  # It's possible to install nflfastR v5.2.0 to parse those seasons.
+  # try pak::pak("nflverse/nflfastR@v5.2.0")
+  game_ids <- check_for_dropped_seasons(game_ids)
 
   game_count <- ifelse(is.vector(game_ids), length(game_ids), nrow(game_ids))
   builder <- TRUE
 
-  if (game_count > 1) {
-    cli::cli_ul("{my_time()} | Start download of {game_count} games...")
-  } else {
-    cli::cli_ul("{my_time()} | Start download of {game_count} game...")
-  }
+  cli::cli_ul("{my_time()} | Start download of {game_count} game{?s}...")
 
-  ret <- fast_scraper(game_ids = game_ids, ..., in_builder = builder) %>%
-    clean_pbp(in_builder = builder) %>%
-    add_qb_epa(in_builder = builder) %>%
-    add_xyac(in_builder = builder) %>%
+  ret <- fast_scraper(
+    game_ids = game_ids,
+    dir = dir,
+    ...,
+    in_builder = builder
+  ) |>
+    clean_pbp(in_builder = builder) |>
+    add_qb_epa(in_builder = builder) |>
+    add_xyac(in_builder = builder) |>
     add_xpass(in_builder = builder)
 
   if (isTRUE(decode)) {
     ret <- decode_player_ids(ret, in_builder = builder)
   }
 
-  if (isTRUE(rules)) rule_footer("DONE")
+  if (isTRUE(rules)) {
+    rule_footer("DONE")
+  }
 
-  return(ret)
+  make_nflverse_data(ret)
 }

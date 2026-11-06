@@ -23,6 +23,9 @@
 #' In the unlikely event that there is a problem with this function, an nflfastR
 #' internal decoder can be used with the option `fast = FALSE`.
 #'
+#' The 2022 play by play data introduced new player IDs that can't be decoded
+#' with gsisdecoder. In that case, IDs are joined through [nflreadr::load_players].
+#'
 #' @return The input data frame of the parameter `pbp` with decoded player IDs.
 #' @export
 #' @examples
@@ -40,6 +43,9 @@
 #' ))
 #' }
 decode_player_ids <- function(pbp, ..., fast = TRUE) {
+  # need newer version of nflreadr to use load_players
+  rlang::check_installed("nflreadr (>= 1.3.0)", "to decode player IDs.")
+
   if (isFALSE(fast)) {
     if (nrow(pbp) > 1000 && is_sequential()) {
       cli::cli_alert_info(c(
@@ -48,36 +54,50 @@ decode_player_ids <- function(pbp, ..., fast = TRUE) {
         "Will go on sequentially..."
       ))
     }
-    user_message("Start decoding player ids, please wait...", "todo")
-
-    ret <- pbp %>%
-      dplyr::mutate_at(
-        dplyr::vars(
-          tidyselect::any_of(c("passer_id", "rusher_id", "receiver_id", "id", "fantasy_id")),
-          tidyselect::ends_with("player_id")
-        ),
-        decode_ids
-      )
+    decode_gsis <- decode_ids
   } else if (isTRUE(fast)) {
-    if (!is_installed("gsisdecoder")) {
-      cli::cli_abort("Package {.val gsisdecoder} required for fast decoding. Please install it with {.code install.packages(\"gsisdecoder\")}.")
-    }
-    # No need to inform that decoding starts since it's very fast
-    # cli::cli_ul("Start decoding player ids...")
-
-    ret <- pbp %>%
-      dplyr::mutate_at(
-        dplyr::vars(
-          tidyselect::any_of(c("passer_id", "rusher_id", "receiver_id", "id", "fantasy_id")),
-          tidyselect::ends_with("player_id")
-        ),
-        gsisdecoder::decode_ids
-      )
+    rlang::check_installed("gsisdecoder", "to run fast decoding of player IDs.")
+    decode_gsis <- gsisdecoder::decode_ids
   }
+
+  user_message("Decode player ids...", "todo")
+
+  players <- nflreadr::load_players()
+
+  id_vector <- players$gsis_id
+  names(id_vector) <- players$esb_id
+
+  ret <- pbp |>
+    dplyr::mutate_at(
+      dplyr::vars(
+        dplyr::any_of(c(
+          "passer_id",
+          "rusher_id",
+          "receiver_id",
+          "id",
+          "fantasy_id"
+        )),
+        dplyr::ends_with("player_id")
+      ),
+      function(id, id_vec = id_vector) {
+        chars <- nchar(id)
+        dplyr::case_when(
+          is.na(chars) ~ NA_character_,
+          # this means it's gsis ID. 30 30 2d 30 30 translates to 00-00
+          stringr::str_sub(id, 5, 16) == "3030-2d30-30" ~ decode_gsis(id),
+          # if it's not gsis, it is likely elias. We drop names to avoid confusion
+          nchar(id) == 36 ~ unname(id_vec[extract_elias(
+            id,
+            decoder = decode_gsis
+          )]),
+          TRUE ~ id
+        )
+      }
+    )
 
   message_completed("Decoding of player ids completed", ...)
 
-  return(ret)
+  ret
 }
 
 decode_ids <- function(var) {
@@ -88,11 +108,21 @@ convert_to_gsis_id <- function(new_id) {
   if (is.na(new_id) | stringr::str_length(new_id) != 36) {
     ret <- new_id
   } else {
-    to_decode <- new_id %>%
-      stringr::str_sub(5, -9) %>%
+    to_decode <- new_id |>
+      stringr::str_sub(5, -9) |>
       stringr::str_replace_all("-", "")
-    hex_raw <- sapply(seq(1, nchar(to_decode), by = 2), function(x) substr(to_decode, x, x + 1))
+    hex_raw <- sapply(seq(1, nchar(to_decode), by = 2), function(x) {
+      substr(to_decode, x, x + 1)
+    })
     ret <- rawToChar(as.raw(strtoi(hex_raw, 16L)))
   }
   return(ret)
+}
+
+extract_elias <- function(smart_id, decoder) {
+  name_abbr <- decoder(smart_id) |> substr(1, 3)
+  id_no <- stringr::str_remove_all(smart_id, "-") |>
+    stringr::str_sub(11, 16)
+  elias_id <- paste0(name_abbr, id_no)
+  elias_id
 }

@@ -4,30 +4,54 @@
 \alias{report}
 \title{Get a Situation Report on System, nflverse Package Versions and Dependencies}
 \usage{
-report(pkg = NULL, recursive = FALSE)
+report(...)
 }
 \arguments{
-\item{pkg}{a character vector naming installed packages, or \code{NULL}
+\item{...}{
+  Arguments passed on to \code{\link[nflreadr:nflverse_sitrep]{nflreadr::nflverse_sitrep}}
+  \describe{
+    \item{\code{pkg}}{a character vector naming installed packages, or \code{NULL}
 (the default) meaning all nflverse packages. The function checks internally
 if all packages are installed and informs if that is not the case.}
-
-\item{recursive}{a logical indicating whether dependencies of \code{pkg} and their
+    \item{\code{recursive}}{a logical indicating whether dependencies of \code{pkg} and their
 dependencies (and so on) should be included.
 Can also be a character vector listing the types of dependencies, a subset
 of \code{c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")}.
 Character string \code{"all"} is shorthand for that vector, character string
 \code{"most"} for the same vector without \code{"Enhances"}, character string \code{"strong"}
 (default) for the first three elements of that vector.}
+    \item{\code{redact_path}}{a logical indicating whether options that contain "path"
+in the name should be redacted, default = TRUE}
+    \item{\code{dev_repos}}{Developmental cran-like repos to check, e.g. r-universe repos}
+  }}
 }
 \description{
-This function gives a quick overview of the versions of R and the operating
-system as well as the versions of nflverse packages and their dependencies.
-It's primarily designed to help you get a quick idea of what's going on when
-you're helping someone else debug a problem.
+\ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#deprecated}{\figure{lifecycle-deprecated.svg}{options: alt='[Deprecated]'}}}{\strong{[Deprecated]}}
+
+This function was deprecated. Please use \code{\link[nflreadr:nflverse_sitrep]{nflreadr::nflverse_sitrep}}.
+
+This function gives a quick overview of the versions of R and
+the operating system as well as the versions of nflverse packages, options,
+and their dependencies. It's primarily designed to help you get a quick
+idea of what's going on when you're helping someone else debug a problem.
+}
+\details{
+See \code{\link[nflreadr:nflverse_sitrep]{nflreadr::nflverse_sitrep}} for details.
 }
 \examples{
 \donttest{
-report()
-report("nflreadr", TRUE)
+\dontshow{
+# set CRAN mirror to avoid failing checks in weird scenarios
+old_ops <- options(repos = c("CRAN" = "https://cran.rstudio.com/"))
+}
+
+# report(recursive = FALSE)
+nflverse_sitrep(pkg = "nflreadr", recursive = TRUE)
+
+\dontshow{
+# restore old options
+options(old_ops)
 }
 }
+}
+\keyword{internal}

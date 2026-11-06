@@ -5,29 +5,49 @@
 ################################################################################
 
 # Thanks Lee!
-add_game_data <- function(pbp) {
+add_game_data <- function(pbp, games = NULL, ...) {
   out <- pbp
+  warn <- 0
   tryCatch(
     expr = {
-      url <- "https://github.com/leesharpe/nfldata/blob/master/data/games.rds?raw=true"
-
-      fetched <- curl::curl_fetch_memory(url)
-
-      if (fetched$status_code %in% c(404, 500)) {
-        warning(warn <- 1)
+      # we use dir to specify the directory of a locally stored games file
+      # for unit tests
+      if (is.null(games)) {
+        games <- nflreadr::load_schedules()
+      } else {
+        stopifnot(
+          inherits(games, "nflverse_data"),
+          isTRUE(attr(games, "nflverse_type") == "games and schedules")
+        )
       }
 
-      out <- out %>%
+      out <- out |>
         dplyr::left_join(
-          read_raw_rds(fetched$content) %>%
+          games |>
             dplyr::select(
-              "game_id", "old_game_id", "away_score", "home_score", "location", "result", "total",
-              "spread_line", "total_line", "div_game", "roof", "surface", "temp", "wind",
-              "home_coach", "away_coach", "stadium", "stadium_id", "gameday"
-            ) %>%
+              "game_id",
+              "old_game_id",
+              "away_score",
+              "home_score",
+              "location",
+              "result",
+              "total",
+              "spread_line",
+              "total_line",
+              "div_game",
+              "roof",
+              "surface",
+              "temp",
+              "wind",
+              "home_coach",
+              "away_coach",
+              "stadium",
+              "stadium_id",
+              "gameday"
+            ) |>
             dplyr::rename(game_stadium = "stadium"),
           by = c("game_id")
-        ) %>%
+        ) |>
         dplyr::mutate(
           game_date = .data$gameday
         )
@@ -40,14 +60,15 @@ add_game_data <- function(pbp) {
     },
     warning = function(w) {
       if (warn == 1) {
-        message("Warning: The data hosting servers are down, so we can't add game data in the moment!")
+        message(
+          "Warning: The data hosting servers are down, so we can't add game data in the moment!"
+        )
       } else {
         message("The following warning has occured:")
         message(w)
       }
     },
-    finally = {
-    }
+    finally = {}
   )
   return(out)
 }

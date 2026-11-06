@@ -19,47 +19,63 @@
 #' }
 #' @export
 add_xpass <- function(pbp, ...) {
-  pbp <- pbp %>% dplyr::select(-tidyselect::any_of(c("xpass", "pass_oe")))
+  if (nrow(pbp) == 0) {
+    user_message("Nothing to do. Return passed data frame.", "info")
+    return(pbp)
+  }
+  pbp <- pbp |> dplyr::select(-dplyr::any_of(c("xpass", "pass_oe")))
   plays <- prepare_xpass_data(pbp)
 
-  if (!nrow(plays %>% dplyr::filter(.data$valid_play == 1)) == 0) {
+  if (!nrow(plays |> dplyr::filter(.data$valid_play == 1)) == 0) {
     user_message("Computing xpass...", "todo")
 
     pred <- stats::predict(
-      fastrmodels::xpass_model,
-      as.matrix(plays %>% dplyr::select(-"valid_play"))
-      ) %>%
-      tibble::as_tibble() %>%
-      dplyr::rename(xpass = "value") %>%
-      dplyr::bind_cols(plays) %>%
+      load_model("xpass"),
+      as.matrix(plays |> dplyr::select(-"valid_play"))
+    ) |>
+      tibble::as_tibble() |>
+      dplyr::rename(xpass = "value") |>
+      dplyr::bind_cols(plays) |>
       dplyr::select("xpass", "valid_play")
 
-    pbp <- pbp %>%
-      dplyr::bind_cols(pred) %>%
+    pbp <- pbp |>
+      dplyr::bind_cols(pred) |>
       dplyr::mutate(
         xpass = dplyr::if_else(
-          .data$valid_play == 1, .data$xpass, NA_real_
+          .data$valid_play == 1,
+          .data$xpass,
+          NA_real_
         ),
-        pass_oe = dplyr::if_else(!is.na(.data$xpass), 100 * (.data$pass - .data$xpass), NA_real_),
-        pass_oe = dplyr::if_else(.data$rush == 0 & .data$pass == 0, NA_real_, .data$pass_oe)
-      ) %>%
+        pass_oe = dplyr::if_else(
+          !is.na(.data$xpass),
+          100 * (.data$pass - .data$xpass),
+          NA_real_
+        ),
+        pass_oe = dplyr::if_else(
+          .data$rush == 0 & .data$pass == 0,
+          NA_real_,
+          .data$pass_oe
+        )
+      ) |>
       dplyr::select(-"valid_play")
 
     message_completed("added xpass and pass_oe", ...)
   } else {
-    pbp <- pbp %>%
+    pbp <- pbp |>
       dplyr::mutate(
         xpass = NA_real_,
         pass_oe = NA_real_
       )
-    user_message("No non-NA values for xpass calculation detected. xpass and pass_oe set to NA", "info")
+    user_message(
+      "No non-NA values for xpass calculation detected. xpass and pass_oe set to NA",
+      "info"
+    )
   }
   return(pbp)
 }
 
 prepare_xpass_data <- function(pbp) {
-
-  plays <- pbp %>%
+  plays <- pbp |>
     dplyr::mutate(
       valid_play = dplyr::if_else(
         .data$season >= 2006 &
@@ -70,10 +86,11 @@ prepare_xpass_data <- function(pbp) {
           !is.na(.data$posteam_timeouts_remaining) &
           !is.na(.data$yardline_100) &
           !is.na(.data$score_differential),
-        1, 0
+        1,
+        0
       )
-    ) %>%
-    make_model_mutations() %>%
+    ) |>
+    make_model_mutations() |>
     dplyr::select(
       "valid_play",
       "down",
@@ -82,13 +99,17 @@ prepare_xpass_data <- function(pbp) {
       "qtr",
       "wp",
       "vegas_wp",
-      "era2", "era3", "era4",
+      "era2",
+      "era3",
+      "era4",
       "score_differential",
       "home",
       "half_seconds_remaining",
       "posteam_timeouts_remaining",
       "defteam_timeouts_remaining",
-      "outdoors", "retractable", "dome"
+      "outdoors",
+      "retractable",
+      "dome"
     )
 
   return(plays)

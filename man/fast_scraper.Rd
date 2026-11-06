@@ -4,11 +4,20 @@
 \alias{fast_scraper}
 \title{Get NFL Play by Play Data}
 \usage{
-fast_scraper(game_ids, ..., in_builder = FALSE)
+fast_scraper(
+  game_ids,
+  dir = getOption("nflfastR.raw_directory", default = NULL),
+  ...,
+  in_builder = FALSE
+)
 }
 \arguments{
 \item{game_ids}{Vector of character ids or a data frame including the variable
 \code{game_id} (see details for further information).}
+
+\item{dir}{Path to local directory (defaults to option "nflfastR.raw_directory")
+where nflfastR searches for raw game play-by-play data.
+See \code{\link[=save_raw_pbp]{save_raw_pbp()}} for additional information.}
 
 \item{...}{Additional arguments passed to the scraping functions (for internal use)}
 
@@ -74,8 +83,8 @@ detailed information (description partly extracted from nflscrapR):
 \item{td_player_id}{Unique identifier of the player who scored a touchdown.}
 \item{posteam_timeouts_remaining}{Number of timeouts remaining for the possession team.}
 \item{defteam_timeouts_remaining}{Number of timeouts remaining for the team on defense.}
-\item{total_home_score}{Score for the home team at the start of the play.}
-\item{total_away_score}{Score for the away team at the start of the play.}
+\item{total_home_score}{Score for the home team at the end of the play.}
+\item{total_away_score}{Score for the away team at the end of the play.}
 \item{posteam_score}{Score the posteam at the start of the play.}
 \item{defteam_score}{Score the defteam at the start of the play.}
 \item{score_differential}{Score differential between the posteam and defteam at the start of the play.}
@@ -339,7 +348,7 @@ Please see the description of \code{lateral_rusher_player_name} for further info
 \item{drive_real_start_time}{Local day time when the drive started (currently not used by the NFL and therefore mostly 'NA').}
 \item{drive_play_count}{Numeric value of how many regular plays happened in a given drive.}
 \item{drive_time_of_possession}{Time of possession in a given drive.}
-\item{drive_first_downs}{Number of forst downs in a given drive.}
+\item{drive_first_downs}{Number of first downs in a given drive.}
 \item{drive_inside20}{Binary indicator if the offense was able to get inside the opponents 20 yard line.}
 \item{drive_ended_with_score}{Binary indicator the drive ended with a score.}
 \item{drive_quarter_start}{Numeric value indicating in which quarter the given drive has started.}
@@ -387,14 +396,19 @@ output of that function)
 \examples{
 \donttest{
 # Get pbp data for two games
+try({# to avoid CRAN test problems
 fast_scraper(c("2019_01_GB_CHI", "2013_21_SEA_DEN"))
+})
+
 
 # It is also possible to directly use the
 # output of `fast_scraper_schedules` as input
+try({# to avoid CRAN test problems
 library(dplyr, warn.conflicts = FALSE)
-fast_scraper_schedules(2020) \%>\%
-  tail(3) \%>\%
+fast_scraper_schedules(2020) |>
+  slice_tail(n = 3) |>
   fast_scraper()
+})
 
 \dontshow{
 # Close open connections for R CMD Check
@@ -405,4 +419,6 @@ future::plan("sequential")
 \seealso{
 For information on parallel processing and progress updates please
 see \link{nflfastR}.
+
+\code{\link[=build_nflfastR_pbp]{build_nflfastR_pbp()}}, \code{\link[=save_raw_pbp]{save_raw_pbp()}}
 }

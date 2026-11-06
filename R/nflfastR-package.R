@@ -50,10 +50,10 @@
 #' inherits(future::plan(), "sequential")
 #' ```
 #' For more information on possible plans please see
-#' [the future package Readme](https://github.com/HenrikBengtsson/future/blob/develop/README.md).
+#' [the future package Readme](https://github.com/futureverse/future/blob/develop/README.md).
 #'
 #' For more information on `.Renviron` please see
-#' [this RStudio article](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf).
+#' [this book chapter](https://rstats.wtf/r-startup.html).
 #'
 #' ## Get Progress Updates while Functions are Running
 #'
@@ -66,7 +66,7 @@
 #' ```
 #' or by piping the function call into [progressr::with_progress()]:
 #' ```
-#' load_pbp(2018:2020) %>%
+#' load_pbp(2018:2020) |>
 #'   progressr::with_progress()
 #' ```
 #'
@@ -96,7 +96,7 @@
 #' For more information how to work with progress handlers please see [progressr::progressr].
 #'
 #' For more information on `.Rprofile` please see
-#' [this RStudio article](https://support.rstudio.com/hc/en-us/articles/360047157094-Managing-R-with-Rprofile-Renviron-Rprofile-site-Renviron-site-rsession-conf-and-repos-conf).
+#' [this book chapter](https://rstats.wtf/r-startup.html).
 #'
 "_PACKAGE"
 
@@ -104,23 +104,42 @@
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
 #' @import dplyr
-#' @importFrom cli rule
-#' @importFrom curl curl_fetch_memory
 #' @import fastrmodels
-#' @importFrom furrr future_map_chr future_map_dfr future_map
-#' @importFrom future plan
-#' @importFrom glue glue glue_sql
-#' @importFrom janitor clean_names
-#' @importFrom lifecycle deprecated is_present deprecate_warn
-#' @importFrom mgcv predict.bam
-#' @importFrom progressr progressor
-#' @importFrom rlang .data inform dots_list
-#' @importFrom stats predict na.omit
-#' @importFrom stringr str_sub str_replace_all str_length str_extract str_detect str_trim str_remove_all str_split str_extract_all
-#' @importFrom tibble as_tibble tibble
-#' @importFrom tidyr unnest_wider unnest
-#' @importFrom tidyselect any_of ends_with
-#' @importFrom utils packageVersion
+#' @importFrom data.table %between% %chin%
+#' @importFrom rlang .data := .env %||%
+# We have to import something from xgboost because it is listed as dependency to
+# be able to apply models.
 #' @importFrom xgboost getinfo
 ## usethis namespace: end
 NULL
+
+
+# Re-Exports --------------------------------------------------------------
+
+#' @importFrom nflreadr load_pbp
+#' @export
+nflreadr::load_pbp
+
+#' @importFrom nflreadr load_player_stats
+#' @export
+nflreadr::load_player_stats
+
+#' @importFrom nflreadr load_team_stats
+#' @export
+nflreadr::load_team_stats
+
+#' @importFrom nflreadr load_schedules
+#' @export
+nflreadr::load_schedules
+
+#' @importFrom nflreadr load_rosters
+#' @export
+nflreadr::load_rosters
+
+#' @importFrom nflreadr nflverse_sitrep
+#' @export
+nflreadr::nflverse_sitrep
+
+#' @importFrom nflreadr most_recent_season
+#' @export
+nflreadr::most_recent_season

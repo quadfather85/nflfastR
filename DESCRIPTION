@@ -1,78 +1,54 @@
 Type: Package
 Package: nflfastR
 Title: Functions to Efficiently Access NFL Play by Play Data
-Version: 4.3.0
-Authors@R: 
-    c(person(given = "Sebastian",
-             family = "Carl",
-             role = "aut",
-             email = "mrcaseb@gmail.com"),
-      person(given = "Ben",
-             family = "Baldwin",
-             role = c("cre", "aut"),
-             email = "bbaldwin206@gmail.com"),
-      person(given = "Lee",
-             family = "Sharpe",
-             role = "ctb"),
-      person(given = "Maksim",
-             family = "Horowitz",
-             role = "ctb",
-             email = "maksim.horowitz@gmail.com"),
-      person(given = "Ron",
-             family = "Yurko",
-             role = "ctb",
-             email = "ryurko@stat.cmu.edu"),
-      person(given = "Samuel",
-             family = "Ventura",
-             role = "ctb",
-             email = "samventura22@gmail.com"),
-      person(given = "Tan",
-             family = "Ho",
-             role = "ctb"),
-      person(given = "John",
-             family = "Edwards",
-             role = "ctb",
-             email = "edwards1860@gmail.com"))
-Description: A set of functions to access National Football
-    League play-by-play data from <https://www.nfl.com/>.
+Version: 6.0.0
+Authors@R: c(
+    person("Sebastian", "Carl", , "mrcaseb@gmail.com", role = "aut"),
+    person("Ben", "Baldwin", , "bbaldwin206@gmail.com", role = c("cre", "aut")),
+    person("Lee", "Sharpe", role = "ctb"),
+    person("Maksim", "Horowitz", , "maksim.horowitz@gmail.com", role = "ctb"),
+    person("Ron", "Yurko", , "ryurko@stat.cmu.edu", role = "ctb"),
+    person("Samuel", "Ventura", , "samventura22@gmail.com", role = "ctb"),
+    person("Tan", "Ho", role = "ctb"),
+    person("John", "Edwards", , "edwards1860@gmail.com", role = "ctb")
+  )
+Description: A set of functions to access National Football League
+    play-by-play data from <https://www.nfl.com/>.
 License: MIT + file LICENSE
-URL: https://www.nflfastr.com/,
-    https://github.com/nflverse/nflfastR
+URL: https://nflfastr.com/, https://github.com/nflverse/nflfastR
 BugReports: https://github.com/nflverse/nflfastR/issues
 Depends: 
-    R (>= 3.5.0)
+    R (>= 4.1.0)
 Imports: 
     cli (>= 3.0.0),
     curl,
-    dplyr,
-    fastrmodels (>= 1.0.1),
+    data.table (>= 1.15.0),
+    dplyr (>= 1.0.0),
+    fastrmodels (>= 2.1.0),
     furrr,
     future,
     glue,
     janitor,
-    lifecycle (>= 0.2.0),
+    lifecycle,
     mgcv,
-    nflreadr (>= 1.0.0),
+    nflreadr (>= 1.2.0),
     progressr (>= 0.6.0),
     rlang (>= 0.4.7),
-    stringr (>= 1.3.0),
+    stringr (>= 1.4.0),
     tibble (>= 3.0),
     tidyr (>= 1.0.0),
-    tidyselect (>= 1.1.0),
-    xgboost (>= 1.1)
+    xgboost (>= 1.6)
 Suggests: 
-    crayon (>= 1.3.4),
     DBI,
-    DT,
+    duckdb,
     gsisdecoder,
-    httr,
-    jsonlite,
+    nflseedR (>= 2.0.0),
     purrr (>= 0.3.0),
-    qs (>= 0.25.1),
     rmarkdown,
     RSQLite,
-    testthat
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.2
 Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.0

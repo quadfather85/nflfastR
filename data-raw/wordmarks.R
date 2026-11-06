@@ -1,13 +1,12 @@
 library(dplyr)
 
-teams <- nflfastR::teams_colors_logos %>%
-  dplyr::filter(!team_abbr %in% c("LAR", "OAK", "SD", "STL"))
+teams <- nflreadr::load_teams()
 
 purrr::walk(teams$team_abbr, function(x) {
   load <- glue::glue(
-    "https://static.www.nfl.com/league/apps/clubs/wordmarks/{x}_fullcolor.png"
-  ) %>%
-    magick::image_read() %>%
+    "https://upload.wikimedia.org/wikipedia/commons/4/44/LA_Rams_wordmark.png"
+  ) |>
+    magick::image_read() |>
     magick::image_trim()
 
   info <- magick::image_info(load)
@@ -15,9 +14,13 @@ purrr::walk(teams$team_abbr, function(x) {
   rl <- (700 - info$width) / 2
   tb <- (192 - info$height) / 2
 
-  image <- magick::image_border(load, "white", glue::glue("{rl}x{tb}"))
+  image <- magick::image_border(load, "transparent", glue::glue("{rl}x{tb}"))
 
-  magick::image_write(image, path = glue::glue("wordmarks/{x}.png"), format = "png")
+  magick::image_write(
+    image,
+    path = glue::glue("wordmarks/{x}.png"),
+    format = "png"
+  )
 
   if (x == "LA") {
     magick::image_write(image, path = "wordmarks/LAR.png", format = "png")
